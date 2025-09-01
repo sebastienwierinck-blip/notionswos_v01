@@ -1,0 +1,15 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+a {
+  color: #e63946;
+  text-decoration: none;
+}
