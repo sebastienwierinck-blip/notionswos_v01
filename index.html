@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SWWS Slider Preview</title>
+
+  <!-- (Optionnel) ton base.css hébergé -->
+  <link rel="stylesheet" href="base.css?v=3">
+
+  <style>
+    /* =============== SW SLIDER (namespacé) =============== */
+    :root{ --bg:#fff; --fg:#111; }
+    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--fg); }
+    .page{ max-width:1200px; margin:40px auto; padding:0 16px; }
+
+    h1{ font-size:clamp(22px,3vw,32px); margin:0 0 8px; }
+    .muted{ color:#666; margin:0 0 24px; }
+
+    /* conteneur de chaque "section" de test */
+    .section{ margin:28px 0 40px; }
+    .label{ font-size:14px; color:#666; margin:0 0 8px; }
+
+    .sw-slider {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      gap: var(--sw-gap, 16px);
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 0 10px;
+    }
+    .sw-slider::-webkit-scrollbar { height: 8px; }
+    .sw-slider::-webkit-scrollbar-thumb { background: #cfcfcf; border-radius: 4px; }
+    .sw-slider::-webkit-scrollbar-track { background: transparent; }
+
+    /* Cartes Notion (dans la collection) */
+    .sw-slider .notion-collection-item {
+      flex: 0 0 var(--sw-w-desktop, 320px) !important;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f3f3f3;
+    }
+
+    /* Responsive par variables */
+    @media (max-width: 1024px) {
+      .sw-slider .notion-collection-item {
+        flex-basis: var(--sw-w-tablet, 260px) !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .sw-slider .notion-collection-item {
+        flex-basis: var(--sw-w-mobile, 70vw) !important;
+      }
+    }
+
+    /* Wrapper & Boutons */
+    .sw-slider-wrap { position: relative; }
+
+    .sw-slider--nav .sw-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      inline-size: 40px;
+      block-size: 40px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      border: 1px solid rgba(0,0,0,0.08);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .sw-slider--nav .sw-nav-btn::before{
+      content: "";
+      display: block;
+      inline-size: 10px; block-size: 10px;
+      border-top: 2px solid currentColor; border-right: 2px solid currentColor;
+    }
+    .sw-slider--nav .sw-prev { left: 8px; }
+    .sw-slider--nav .sw-prev::before { transform: rotate(-135deg); }
+    .sw-slider--nav .sw-next { right: 8px; }
+    .sw-slider--nav .sw-next::before { transform: rotate(45deg); }
+
+    @media (hover:hover) and (pointer:fine){
+      .sw-slider--nav:hover .sw-nav-btn { opacity: 1; }
+      .sw-slider--nav .sw-nav-btn:active { transform: translateY(-50%) scale(.96); }
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0f0f0f; --fg:#f5f5f5; }
+      .sw-slider--nav .sw-nav-btn{ background: rgba(20,20,20,.7); color:#fff; border-color: rgba(255,255,255,.12); }
+      .sw-slider .notion-collection-item { background:#1c1c1c; }
+    }
+
+    /* Démo cartes */
+    .card{
+      display:grid; place-items:center;
+      min-height:180px;
+      font-weight:600;
+    }
+
+    /* DEBUG optionnel
+    .sw-slider{ outline:3px dashed lime; } */
+  </style>
+
+  <!-- Config du slider : mets ici tes vrais data-block-id -->
+  <script type="application/json" id="sw-slider-config">
+  {
+    "targets": [
+      {
+        "id": "17895fdc-c23e-8026-b341-eeff283aa7ad",
+        "width": { "desktop": 420, "tablet": 360, "mobile": "80vw" },
+        "gap": 16,
+        "nav": true
+      },
+      {
+        "id": "aaaa1111-bbbb-2222-cccc-3333dddd4444",
+        "width": { "desktop": 300, "tablet": 240, "mobile": "70vw" },
+        "gap": 12,
+        "nav": true
+      }
+    ],
+    "autoplay": false,
+    "interval": 4500
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+    <h1>SWWS Slider Preview</h1>
+    <p class="muted">Démo autonome qui simule la structure Super/Notion pour tester le module slider (sans plan payant).</p>
+
+    <!-- SECTION 1 : une "collection" avec le VRAI ID que tu as -->
+    <div class="section">
+      <div class="label">Collection A — data-block-id = 17895fdc-c23e-8026-b341-eeff283aa7ad</div>
+      <div class="notion-collection" data-block-id="17895fdc-c23e-8026-b341-eeff283aa7ad">
+        <div class="notion-collection-item"><div class="card">A1</div></div>
+        <div class="notion-collection-item"><div class="card">A2</div></div>
+        <div class="notion-collection-item"><div class="card">A3</div></div>
+        <div class="notion-collection-item"><div class="card">A4</div></div>
+        <div class="notion-collection-item"><div class="card">A5</div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 : une autre collection avec un ID "factice" -->
+    <div class="section">
+      <div class="label">Collection B — data-block-id = aaaa1111-bbbb-2222-cccc-3333dddd4444</div>
+      <div class="notion-collection" data-block-id="aaaa1111-bbbb-2222-cccc-3333dddd4444">
+        <div class="notion-collection-item"><div class="card">B1</div></div>
+        <div class="notion-collection-item"><div class="card">B2</div></div>
+        <div class="notion-collection-item"><div class="card">B3</div></div>
+        <div class="notion-collection-item"><div class="card">B4</div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 : une collection sans ID listé (reste en grille, pas slider) -->
+    <div class="section">
+      <div class="label">Collection C — non listée (reste en grille)</div>
+      <div class="notion-collection" data-block-id="cccc2222-dddd-3333-eeee-4444ffff5555">
+        <div class="notion-collection-item"><div class="card">C1</div></div>
+        <div class="notion-collection-item"><div class="card">C2</div></div>
+        <div class="notion-collection-item"><div class="card">C3</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module JS (namespacé) -->
+  <script>
+  (function(){
+    const STEP_RATIO = 0.9;
+    const toNoDash = id => String(id||"").replace(/-/g,'').replace(/^#?block-/, '');
+    const toDashed = id => {
+      const x = toNoDash(id);
+      if (x.length !== 32) return id;
+      return `${x.slice(0,8)}-${x.slice(8,12)}-${x.slice(12,16)}-${x.slice(16,20)}-${x.slice(20)}`;
+    };
+
+    function readConfig(){
+      try{
+        const el = document.getElementById('sw-slider-config');
+        return el ? JSON.parse(el.textContent) : { targets:[], autoplay:false, interval:4000 };
+      }catch(e){ return { targets:[], autoplay:false, interval:4000 }; }
+    }
+
+    function findCollection(raw){
+      const a = toDashed(raw), b = toNoDash(raw);
+      let el = document.querySelector(`.notion-collection[data-block-id="${a}"]`)
+            || document.querySelector(`.notion-collection[data-block-id="${b}"]`);
+      if (el) return el;
+      const anchor = document.querySelector(`#block-${b}`) || document.querySelector(`#${a}`);
+      if (anchor){
+        const col = anchor.closest('.notion-collection, .notion-collection_view, [class*="collection"]');
+        if (col) return col;
+      }
+      return null;
+    }
+
+    function getScrollContainer(base){
+      if (!base) return null;
+      const candidates = [base, ...base.querySelectorAll(':scope *')];
+      for (const c of candidates){
+        if (c.querySelectorAll('.notion-collection-item').length >= 2) return c;
+      }
+      return base;
+    }
+
+    function makeWrap(scroller){
+      if (scroller.closest('.sw-slider-wrap')) return scroller.closest('.sw-slider-wrap');
+      const wrap = document.createElement('div');
+      wrap.className = 'sw-slider-wrap sw-slider--nav';
+      const parent = scroller.parentNode;
+      parent.insertBefore(wrap, scroller);
+      wrap.appendChild(scroller);
+      return wrap;
+    }
+
+    function addNav(wrap, scroller){
+      const prev = document.createElement('button'); prev.className = 'sw-nav-btn sw-prev'; prev.ariaLabel = 'Précédent';
+      const next = document.createElement('button'); next.className = 'sw-nav-btn sw-next'; next.ariaLabel = 'Suivant';
+      wrap.appendChild(prev); wrap.appendChild(next);
+      const step = () => Math.max(100, scroller.clientWidth * STEP_RATIO);
+      prev.addEventListener('click', ()=> scroller.scrollBy({ left: -step(), behavior:'smooth' }));
+      next.addEventListener('click', ()=> scroller.scrollBy({ left:  step(), behavior:'smooth' }));
+    }
+
+    function enhanceOne(target, cfg){
+      const host = findCollection(target.id);
+      if (!host) return;
+
+      const scroller = getScrollContainer(host);
+      scroller.classList.add('sw-slider');
+
+      // variables CSS (largeurs et gap)
+      const w = target.width || {};
+      if (w.desktop) scroller.style.setProperty('--sw-w-desktop', typeof w.desktop==='number' ? w.desktop+'px' : w.desktop);
+      if (w.tablet)  scroller.style.setProperty('--sw-w-tablet',  typeof w.tablet ==='number' ? w.tablet +'px' : w.tablet );
+      if (w.mobile)  scroller.style.setProperty('--sw-w-mobile',  typeof w.mobile ==='number' ? w.mobile +'px' : w.mobile );
+      const gap = (target.gap!=null ? target.gap : 16);
+      scroller.style.setProperty('--sw-gap', gap+'px');
+
+      // boutons
+      if (target.nav){
+        const wrap = makeWrap(scroller);
+        if (!wrap.querySelector('.sw-nav-btn')) addNav(wrap, scroller);
+      }
+
+      // autoplay local (prioritaire) sinon global
+      const useAutoplay = target.autoplay ?? cfg.autoplay;
+      const interval = Math.max(2000, target.interval ?? cfg.interval ?? 4000);
+      if (useAutoplay){
+        let timer = setInterval(()=> scroller.scrollBy({left: scroller.clientWidth*STEP_RATIO, behavior:'smooth'}), interval);
+        scroller.addEventListener('mouseenter', ()=> clearInterval(timer));
+        scroller.addEventListener('mouseleave', ()=>{
+          timer = setInterval(()=> scroller.scrollBy({left: scroller.clientWidth*STEP_RATIO, behavior:'smooth'}), interval);
+        });
+      }
+    }
+
+    function init(){
+      const cfg = readConfig();
+      (cfg.targets||[]).forEach(t => enhanceOne(t, cfg));
+    }
+
+    (document.readyState==='loading') ? document.addEventListener('DOMContentLoaded', init) : init();
+  })();
+  </script>
+</body>
+</html>
