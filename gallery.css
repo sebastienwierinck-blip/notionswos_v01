@@ -1,0 +1,57 @@
+/* Carrousel opt-in : ne s’applique que si .gallery-horizontal est présente */
+.gallery-horizontal{
+  display:flex !important; flex-wrap:nowrap !important;
+  overflow-x:auto !important; overflow-y:hidden !important;
+  gap:16px; padding:4px 0 10px; scroll-behavior:smooth;
+  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+}
+.gallery-horizontal::-webkit-scrollbar{height:8px}
+.gallery-horizontal::-webkit-scrollbar-thumb{background:#cfcfcf;border-radius:4px}
+.gallery-horizontal::-webkit-scrollbar-track{background:transparent}
+
+/* Cartes */
+.gallery-horizontal .notion-collection-item{
+  flex:0 0 var(--card-w,320px) !important;
+  scroll-snap-align:start; scroll-snap-stop:always;
+}
+
+/* Tailles (desktop par défaut) */
+.gallery--large { --card-w:420px }
+.gallery--medium{ --card-w:300px }
+.gallery--small { --card-w:220px }
+
+@media (max-width:1024px){
+  .gallery--large { --card-w:360px }
+  .gallery--medium{ --card-w:260px }
+  .gallery--small { --card-w:200px }
+}
+@media (max-width:768px){
+  .gallery--large { --card-w:80vw }
+  .gallery--medium{ --card-w:70vw }
+  .gallery--small { --card-w:60vw }
+}
+
+/* Wrapper + boutons */
+.gallery-wrap{position:relative}
+.gallery--nav .nav-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  inline-size:40px; block-size:40px; border-radius:999px;
+  background:rgba(255,255,255,.85); backdrop-filter:blur(4px);
+  border:1px solid rgba(0,0,0,.08); box-shadow:0 2px 12px rgba(0,0,0,.15);
+  display:grid; place-items:center; cursor:pointer; z-index:3;
+  opacity:0; transition:opacity .2s ease, transform .2s ease;
+}
+.gallery--nav .nav-btn::before{
+  content:""; display:block; inline-size:10px; block-size:10px;
+  border-top:2px solid currentColor; border-right:2px solid currentColor;
+}
+.gallery--nav .nav-prev{left:8px}  .gallery--nav .nav-prev::before{transform:rotate(-135deg)}
+.gallery--nav .nav-next{right:8px} .gallery--nav .nav-next::before{transform:rotate(45deg)}
+
+@media (hover:hover) and (pointer:fine){
+  .gallery--nav:hover .nav-btn{opacity:1}
+  .gallery--nav .nav-btn:active{transform:translateY(-50%) scale(.96)}
+}
+@media (prefers-color-scheme:dark){
+  .gallery--nav .nav-btn{background:rgba(20,20,20,.7); color:#fff; border-color:rgba(255,255,255,.12)}
+}
